@@ -36,17 +36,18 @@ public class StringCalculator
 
             List<Integer> numbers = numberList(numberSequence, escapedDelimiter);
             checkForNegativeNumbers(numbers);
-
-            return numbers.stream()
-                    .mapToInt(Integer::intValue)
-                    .sum();
+            return addInternal(numbers);
         }
 
         List<Integer> numbers = numberList(input, defaultDelimiter);
         checkForNegativeNumbers(numbers);
+        return addInternal(numbers);
+    }
 
-        return Arrays.stream(input.split(defaultDelimiter))
-                .map(Integer::valueOf)
+    private int addInternal(List<Integer> numbers)
+    {
+        return numbers.stream()
+                .filter(n -> n <= 1000)
                 .mapToInt(Integer::intValue)
                 .sum();
     }

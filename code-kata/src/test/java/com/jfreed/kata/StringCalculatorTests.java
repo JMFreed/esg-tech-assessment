@@ -52,6 +52,13 @@ public class StringCalculatorTests
                 negativeNumberException.getMessage());
     }
 
+    @ParameterizedTest
+    @MethodSource("step6TestCases")
+    public void step6Tests(String input, int expected) throws Exception
+    {
+        assertEquals(expected, stringCalculator.add(input));
+    }
+
     static Stream<Arguments> step1TestCases()
     {
         return Stream.of(
@@ -91,6 +98,15 @@ public class StringCalculatorTests
         return Stream.of(
                 Arguments.of("-1,2", "-1"),
                 Arguments.of("2,-4,3,-5", "-4,-5")
+        );
+    }
+
+    static Stream<Arguments> step6TestCases()
+    {
+        return Stream.of(
+                Arguments.of("1000,3,4", 1007),
+                Arguments.of("1001,2", 2),
+                Arguments.of("1,2,3000,4000,5", 8)
         );
     }
 }
