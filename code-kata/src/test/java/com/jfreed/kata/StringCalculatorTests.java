@@ -33,6 +33,13 @@ public class StringCalculatorTests
         assertEquals(stringCalculator.add(input), expected);
     }
 
+    @ParameterizedTest
+    @MethodSource("step4TestCases")
+    public void step4Tests(String input, int expected)
+    {
+        assertEquals(stringCalculator.add(input), expected);
+    }
+
     static Stream<Arguments> step1TestCases() {
         return Stream.of(
                 Arguments.of("", 0),
@@ -53,6 +60,13 @@ public class StringCalculatorTests
         return Stream.of(
                 Arguments.of("1\n2,3", 6),
                 Arguments.of("2\n4\n6", 12)
+        );
+    }
+
+    static Stream<Arguments> step4TestCases() {
+        return Stream.of(
+                Arguments.of("//;\n1;2", 3),
+                Arguments.of("//$$\n3$$5$$7", 15)
         );
     }
 }
