@@ -1,4 +1,4 @@
-package com.jfreed.esg;
+package com.jfreed.esg.dto;
 
 public class Customer
 {

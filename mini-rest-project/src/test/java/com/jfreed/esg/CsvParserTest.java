@@ -1,7 +1,7 @@
 package com.jfreed.esg;
 
+import com.jfreed.esg.dto.Customer;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.nio.file.Path;

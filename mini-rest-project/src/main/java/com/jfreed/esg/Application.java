@@ -1,9 +1,11 @@
 package com.jfreed.esg;
 
+import com.jfreed.esg.dto.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +16,9 @@ public class Application implements CommandLineRunner
 {
     @Autowired
     private CsvParser csvParser;
+
+    @Autowired
+    private WebClient webClient;
 
     public static void main(String[] args)
     {
@@ -48,6 +53,18 @@ public class Application implements CommandLineRunner
         System.out.println("CSV file is valid: " + csvPath);
 
         List<Customer> customers = csvParser.parseCsv(csvPath);
-        System.out.println("BREAK");
+
+        customers.forEach(customer -> {
+            String response = webClient.post()
+                    .uri("/api/v1/customers")
+                    .bodyValue(customer)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+            System.out.println("Saved customer: " + response);
+        });
+
+        System.exit(0);
     }
 }

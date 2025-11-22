@@ -8,6 +8,11 @@
 docker-compose -f docker/postgresql/docker-compose.yaml up -d
 ```
 
+### Access postgreSQL container
+```shell
+psql -h localhost -U esg_admin -p 5435 -d esg
+```
+
 ### Run console application
 
 ```shell
