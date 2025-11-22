@@ -31,3 +31,5 @@ psql -h localhost -U esg_admin -p 5435 -d esg
 ```shell
 mvn spring-boot:run -Dspring-boot.run.arguments="data/test.csv"
 ```
+
+### Notes

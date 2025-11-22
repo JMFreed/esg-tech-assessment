@@ -1,5 +1,6 @@
 package com.jfreed.esg;
 
+import com.jfreed.esg.customer.CustomerEntity;
 import com.jfreed.esg.parser.CsvParser;
 import com.jfreed.esg.customer.CustomerService;
 import com.jfreed.esg.dto.Customer;

@@ -28,8 +28,7 @@ public class CustomerController
             if (byCustomerRef.isEmpty())
             {
                 return ResponseEntity.notFound().build();
-            }
-            else
+            } else
             {
                 return ResponseEntity.ok().body(byCustomerRef.get());
             }
@@ -41,17 +40,10 @@ public class CustomerController
     @PostMapping(consumes = "application/json")
     public ResponseEntity<?> createCustomer(@RequestBody Customer customer)
     {
-        Address address = new Address(customer.getAddressLine1(),
-                customer.getAddressLine2(),
-                customer.getTown(),
-                customer.getCounty(),
-                customer.getCountry(),
-                customer.getPostcode());
-        CustomerEntity entity = new CustomerEntity(
-                customer.getCustomerRef(),
-                customer.getCustomerName(),
-                address
-        );
+        Address address = new Address(customer.getAddressLine1(), customer.getAddressLine2(),
+                customer.getTown(), customer.getCounty(),
+                customer.getCountry(), customer.getPostcode());
+        CustomerEntity entity = new CustomerEntity(customer.getCustomerRef(), customer.getCustomerName(), address);
         CustomerEntity saved = customerRepository.save(entity);
         return ResponseEntity.created(URI.create("/api/v1/customers/" + saved.getId()))
                 .body(saved);

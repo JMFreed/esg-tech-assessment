@@ -12,9 +12,12 @@ public class CustomerService
 {
     private final WebClient webClient;
 
-    public CustomerService(WebClient webClient)
+    private final CustomerMapper customerMapper;
+
+    public CustomerService(WebClient webClient, CustomerMapper customerMapper)
     {
         this.webClient = webClient;
+        this.customerMapper = customerMapper;
     }
 
     public String createCustomer(Customer customer)
@@ -29,19 +32,25 @@ public class CustomerService
 
     public List<Customer> getCustomers()
     {
-        return webClient.get()
+        List<CustomerEntity> entities = webClient.get()
                 .uri("/api/v1/customers")
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Customer>>() {})
+                .bodyToMono(new ParameterizedTypeReference<List<CustomerEntity>>()
+                {
+                })
                 .block();
+
+        return customerMapper.toDTOs(entities);
     }
 
     public Customer getCustomer(String customerRef)
     {
-        return webClient.get()
+        CustomerEntity entity = webClient.get()
                 .uri("/api/v1/customers?customerRef={ref}", customerRef)
                 .retrieve()
-                .bodyToMono(Customer.class)
+                .bodyToMono(CustomerEntity.class)
                 .block();
+
+        return customerMapper.toDTO(entity);
     }
 }
