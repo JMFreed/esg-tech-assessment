@@ -19,11 +19,26 @@ public class StringCalculatorTests
         assertEquals(stringCalculator.add(input), expected);
     }
 
+    @ParameterizedTest
+    @MethodSource("step2TestCases")
+    public void step2Tests(String input, int expected)
+    {
+        assertEquals(stringCalculator.add(input), expected);
+    }
+
     static Stream<Arguments> step1TestCases() {
         return Stream.of(
                 Arguments.of("", 0),
                 Arguments.of("1", 1),
                 Arguments.of("1,2", 3)
+        );
+    }
+
+    static Stream<Arguments> step2TestCases() {
+        return Stream.of(
+                Arguments.of("5,6,7,8", 26),
+                Arguments.of("1,2,3,4,5,6,7,8,9", 45),
+                Arguments.of("5,9,21,5,20,40", 100)
         );
     }
 }
