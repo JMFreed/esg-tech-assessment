@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  jurovet_db:
+    image: postgres:latest
+    container_name: esg-db
+    restart: always
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_USER: esg_admin
+      POSTGRES_DB: esg
+      POSTGRES_PASSWORD: password
