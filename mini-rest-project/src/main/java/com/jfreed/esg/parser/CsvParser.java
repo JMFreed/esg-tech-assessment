@@ -1,4 +1,4 @@
-package com.jfreed.esg;
+package com.jfreed.esg.parser;
 
 import com.jfreed.esg.dto.Customer;
 import org.springframework.stereotype.Service;

@@ -1,13 +1,12 @@
 package com.jfreed.esg;
 
+import com.jfreed.esg.parser.CsvParser;
 import com.jfreed.esg.customer.CustomerService;
 import com.jfreed.esg.dto.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
