@@ -1,12 +1,45 @@
 package com.jfreed.esg;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 @SpringBootApplication
-public class Application
+public class Application implements CommandLineRunner
 {
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         SpringApplication.run(Application.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception
+    {
+
+        if (args.length != 1)
+        {
+            System.err.println("Error: Please provide the path to a CSV file as the only argument.");
+            System.exit(1);
+        }
+
+        String csvPathArg = args[0];
+        Path csvPath = Path.of(csvPathArg).toAbsolutePath().normalize();
+
+        if (!Files.exists(csvPath) || !Files.isRegularFile(csvPath))
+        {
+            System.err.println("Error: The file '" + csvPathArg + "' does not exist or is not a regular file.");
+            System.exit(1);
+        }
+
+        if (!csvPathArg.toLowerCase().endsWith(".csv"))
+        {
+            System.err.println("Error: The file '" + csvPath + "' is not a CSV file.");
+            System.exit(1);
+        }
+
+        System.out.println("CSV file is valid: " + csvPath);
     }
 }
