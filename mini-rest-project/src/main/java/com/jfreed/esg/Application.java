@@ -1,15 +1,20 @@
 package com.jfreed.esg;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner
 {
+    @Autowired
+    private CsvParser csvParser;
+
     public static void main(String[] args)
     {
         SpringApplication.run(Application.class, args);
@@ -41,5 +46,8 @@ public class Application implements CommandLineRunner
         }
 
         System.out.println("CSV file is valid: " + csvPath);
+
+        List<Customer> customers = csvParser.parseCsv(csvPath);
+        System.out.println("BREAK");
     }
 }
