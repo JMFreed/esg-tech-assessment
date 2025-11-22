@@ -1,5 +1,6 @@
 package com.jfreed.kata;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -33,17 +34,19 @@ public class StringCalculator
             String specifiedDelimiter = input.substring(0, index).replaceFirst("^//", "");
             String numberSequence = input.substring(index + 1);
 
-            Pattern bracketPattern = Pattern.compile("\\[(.*?)]");
-            Matcher bracketMatcher = bracketPattern.matcher(specifiedDelimiter);
+            List<String> delimiters = new ArrayList<>();
+            Matcher matcher = Pattern.compile("\\[(.*?)]").matcher(specifiedDelimiter);
+            while (matcher.find())
+            {
+                delimiters.add(Pattern.quote(matcher.group(1)));
+            }
 
-            if (bracketMatcher.find())
+            if (delimiters.isEmpty())
             {
-                delimiter = Pattern.quote(bracketMatcher.group(1));
+                delimiters.add(Pattern.quote(specifiedDelimiter));
             }
-            else
-            {
-                delimiter = Pattern.quote(specifiedDelimiter);
-            }
+
+            delimiter = String.join("|", delimiters);
             List<Integer> numbers = numberList(numberSequence, delimiter);
             checkForNegativeNumbers(numbers);
             return addInternal(numbers);

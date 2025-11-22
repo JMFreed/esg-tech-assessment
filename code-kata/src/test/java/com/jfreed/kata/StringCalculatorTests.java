@@ -66,6 +66,13 @@ public class StringCalculatorTests
         assertEquals(expected, stringCalculator.add(input));
     }
 
+    @ParameterizedTest
+    @MethodSource("step8TestCases")
+    public void step8Tests(String input, int expected) throws Exception
+    {
+        assertEquals(expected, stringCalculator.add(input));
+    }
+
     static Stream<Arguments> step1TestCases()
     {
         return Stream.of(
@@ -122,6 +129,14 @@ public class StringCalculatorTests
         return Stream.of(
                 Arguments.of("//[|||]\n1|||2|||3", 6),
                 Arguments.of("//[$$]\n4$$5$$6", 15)
+        );
+    }
+
+    static Stream<Arguments> step8TestCases()
+    {
+        return Stream.of(
+                Arguments.of("//[|][%]\n1|2%3", 6),
+                Arguments.of("//[,][:]\n1,2:3", 6)
         );
     }
 }
