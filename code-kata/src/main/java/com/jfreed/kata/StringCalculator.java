@@ -20,7 +20,7 @@ public class StringCalculator
             return 0;
         }
 
-        return Arrays.stream(input.split(","))
+        return Arrays.stream(input.split("[,\\n]"))
                 .map(Integer::valueOf)
                 .mapToInt(Integer::intValue)
                 .sum();
