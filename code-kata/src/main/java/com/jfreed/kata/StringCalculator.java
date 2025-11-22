@@ -1,8 +1,9 @@
 package com.jfreed.kata;
 
 import java.util.Arrays;
-import java.util.regex.Matcher;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class StringCalculator
 {
@@ -15,7 +16,7 @@ public class StringCalculator
         return SingletonHelper.INSTANCE;
     }
 
-    public int add(String input)
+    public int add(String input) throws NegativeNumberException
     {
         if (input.isEmpty())
         {
@@ -28,19 +29,44 @@ public class StringCalculator
         if (input.startsWith("//") && index != -1)
         {
             String specifiedDelimiter = input.substring(0, index);
-            String numbers = input.substring(index + 1);
+            String numberSequence = input.substring(index + 1);
+
             String delimiter = specifiedDelimiter.replaceFirst("^//", "");
             String escapedDelimiter = Pattern.quote(delimiter);
-            return Arrays.stream(numbers.split(escapedDelimiter))
-                    .map(Integer::valueOf)
+
+            List<Integer> numbers = numberList(numberSequence, escapedDelimiter);
+            checkForNegativeNumbers(numbers);
+
+            return numbers.stream()
                     .mapToInt(Integer::intValue)
                     .sum();
         }
+
+        List<Integer> numbers = numberList(input, defaultDelimiter);
+        checkForNegativeNumbers(numbers);
 
         return Arrays.stream(input.split(defaultDelimiter))
                 .map(Integer::valueOf)
                 .mapToInt(Integer::intValue)
                 .sum();
+    }
+
+    private List<Integer> numberList(String input, String delimiter)
+    {
+        return Arrays.stream(input.split(delimiter))
+                .map(Integer::valueOf)
+                .collect(Collectors.toList());
+    }
+
+    private void checkForNegativeNumbers(List<Integer> numbers) throws NegativeNumberException
+    {
+        List<Integer> negatives = numbers.stream().filter(i -> i < 0).toList();
+        if (!negatives.isEmpty())
+        {
+            List<String> strNegatives = negatives.stream().map(String::valueOf).toList();
+            String message = "Negatives not allowed: " + String.join(",", strNegatives);
+            throw new NegativeNumberException(message);
+        }
     }
 
     private static class SingletonHelper
