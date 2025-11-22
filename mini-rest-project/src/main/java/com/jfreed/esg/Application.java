@@ -1,10 +1,12 @@
 package com.jfreed.esg;
 
+import com.jfreed.esg.customer.CustomerService;
 import com.jfreed.esg.dto.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.nio.file.Files;
@@ -18,7 +20,7 @@ public class Application implements CommandLineRunner
     private CsvParser csvParser;
 
     @Autowired
-    private WebClient webClient;
+    private CustomerService customerService;
 
     public static void main(String[] args)
     {
@@ -55,15 +57,16 @@ public class Application implements CommandLineRunner
         List<Customer> customers = csvParser.parseCsv(csvPath);
 
         customers.forEach(customer -> {
-            String response = webClient.post()
-                    .uri("/api/v1/customers")
-                    .bodyValue(customer)
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
-
+            String response = customerService.createCustomer(customer);
             System.out.println("Saved customer: " + response);
         });
+
+        List<Customer> all = customerService.getCustomers();
+        System.out.println(all);
+
+        String customerRef = "12345";
+        Customer customer = customerService.getCustomer(customerRef);
+        System.out.println(customer);
 
         System.exit(0);
     }

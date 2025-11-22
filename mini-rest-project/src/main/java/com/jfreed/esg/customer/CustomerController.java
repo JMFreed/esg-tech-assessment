@@ -2,12 +2,11 @@ package com.jfreed.esg.customer;
 
 import com.jfreed.esg.dto.Customer;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/customers")
@@ -18,6 +17,25 @@ public class CustomerController
     public CustomerController(CustomerRepository customerRepository)
     {
         this.customerRepository = customerRepository;
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getCustomers(@RequestParam(value = "customerRef", required = false) String customerRef)
+    {
+        if (customerRef != null && !customerRef.isEmpty())
+        {
+            Optional<CustomerEntity> byCustomerRef = customerRepository.findByCustomerRef(customerRef);
+            if (byCustomerRef.isEmpty())
+            {
+                return ResponseEntity.notFound().build();
+            }
+            else
+            {
+                return ResponseEntity.ok().body(byCustomerRef.get());
+            }
+        }
+        List<CustomerEntity> all = customerRepository.findAll();
+        return ResponseEntity.ok().body(all);
     }
 
     @PostMapping(consumes = "application/json")
