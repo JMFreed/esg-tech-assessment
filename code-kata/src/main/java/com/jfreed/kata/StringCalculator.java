@@ -2,6 +2,7 @@ package com.jfreed.kata;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -23,23 +24,32 @@ public class StringCalculator
             return 0;
         }
 
-        String defaultDelimiter = "[,\\n]";
+        // default delimiter
+        String delimiter = "[,\\n]";
 
         int index = input.indexOf('\n');
         if (input.startsWith("//") && index != -1)
         {
-            String specifiedDelimiter = input.substring(0, index);
+            String specifiedDelimiter = input.substring(0, index).replaceFirst("^//", "");
             String numberSequence = input.substring(index + 1);
 
-            String delimiter = specifiedDelimiter.replaceFirst("^//", "");
-            String escapedDelimiter = Pattern.quote(delimiter);
+            Pattern bracketPattern = Pattern.compile("\\[(.*?)]");
+            Matcher bracketMatcher = bracketPattern.matcher(specifiedDelimiter);
 
-            List<Integer> numbers = numberList(numberSequence, escapedDelimiter);
+            if (bracketMatcher.find())
+            {
+                delimiter = Pattern.quote(bracketMatcher.group(1));
+            }
+            else
+            {
+                delimiter = Pattern.quote(specifiedDelimiter);
+            }
+            List<Integer> numbers = numberList(numberSequence, delimiter);
             checkForNegativeNumbers(numbers);
             return addInternal(numbers);
         }
 
-        List<Integer> numbers = numberList(input, defaultDelimiter);
+        List<Integer> numbers = numberList(input, delimiter);
         checkForNegativeNumbers(numbers);
         return addInternal(numbers);
     }
