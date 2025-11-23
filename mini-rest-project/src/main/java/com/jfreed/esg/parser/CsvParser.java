@@ -17,17 +17,18 @@ public class CsvParser
     {
         List<Customer> customers = new ArrayList<>();
 
-        try (BufferedReader reader = Files.newBufferedReader(csvFile)) {
+        try (BufferedReader reader = Files.newBufferedReader(csvFile))
+        {
             String line;
 
-            // Skip header
             reader.readLine();
 
-            while ((line = reader.readLine()) != null) {
-                // Simple split by comma
+            while ((line = reader.readLine()) != null)
+            {
                 String[] fields = line.split(",", -1);
 
-                if (fields.length != 8) {
+                if (fields.length != 8)
+                {
                     System.err.println("Skipping invalid line: " + line);
                     continue;
                 }
