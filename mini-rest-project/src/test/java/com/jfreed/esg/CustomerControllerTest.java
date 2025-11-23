@@ -38,13 +38,13 @@ class CustomerControllerTest
     private CustomerRepository customerRepository;
 
     List<CustomerEntity> entities = List.of(
-            new CustomerEntity("12345", "Jone Smith", new Address("Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T")),
+            new CustomerEntity("12345", "Jane Smith", new Address("Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T")),
             new CustomerEntity("12346", "Jane Doe", new Address("Fake House", "Fake St", "Leicester", "Leicestershire", "United Kingdom", "F4K3 P5T2")),
             new CustomerEntity("12347", "Laura Parker", new Address("Fake House", "Fake St", "Edinburgh", "Lothian", "United Kingdom", "F4K3 P5T3"))
     );
 
     List<Customer> customers = List.of(
-            new Customer("12345", "Jone Smith","Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T"),
+            new Customer("12345", "Jane Smith","Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T"),
             new Customer("12346", "Jane Doe", "Fake House", "Fake St", "Leicester", "Leicestershire", "United Kingdom", "F4K3 P5T2"),
             new Customer("12347", "Laura Parker", "Fake House", "Fake St", "Edinburgh", "Lothian", "United Kingdom", "F4K3 P5T3")
     );
@@ -52,8 +52,8 @@ class CustomerControllerTest
     @Test
     void testCreateCustomer_expectCreated() throws Exception
     {
-        Customer customer = new Customer("12345", "Jone Smith", "Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T");
-        CustomerEntity entity = new CustomerEntity("12345", "Jone Smith", new Address("Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T"));
+        Customer customer = new Customer("12345", "Jane Smith", "Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T");
+        CustomerEntity entity = new CustomerEntity("12345", "Jane Smith", new Address("Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T"));
         when(customerRepository.save(any())).thenReturn(entity);
         when(customerMapper.toDTO(any())).thenReturn(customer);
         mockMvc.perform(post(ApiPaths.CUSTOMERS)

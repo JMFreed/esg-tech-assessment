@@ -53,8 +53,8 @@ public class ConsoleApp implements CommandLineRunner
         List<Customer> customers = csvParser.parseCsv(csvPath);
 
         customers.forEach(customer -> {
-            String response = customerService.createCustomer(customer);
-            LOGGER.info("Saved customer: {}", response);
+            Customer created = customerService.createCustomer(customer);
+            LOGGER.info("Saved customer: {}", created);
         });
 
         LOGGER.info("Calling GET /api/v1/customers");

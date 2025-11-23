@@ -18,13 +18,13 @@ public class CustomerService
         this.webClient = webClient;
     }
 
-    public String createCustomer(Customer customer)
+    public Customer createCustomer(Customer customer)
     {
         return webClient.post()
                 .uri(ApiPaths.CUSTOMERS)
                 .bodyValue(customer)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(Customer.class)
                 .block();
     }
 

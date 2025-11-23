@@ -28,7 +28,7 @@ public class CustomerRepositoryTest
     private TestEntityManager em;
 
     List<CustomerEntity> customers = List.of(
-            new CustomerEntity("12345", "Jone Smith", new Address("Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T")),
+            new CustomerEntity("12345", "Jane Smith", new Address("Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T")),
             new CustomerEntity("12346", "Jane Doe", new Address("Fake House", "Fake St", "Leicester", "Leicestershire", "United Kingdom", "F4K3 P5T2")),
             new CustomerEntity("12347", "Sam Adams", new Address("Fake House", "Fake St", "Edinburgh", "Lothian", "United Kingdom", "F4K3 P5T3"))
     );
