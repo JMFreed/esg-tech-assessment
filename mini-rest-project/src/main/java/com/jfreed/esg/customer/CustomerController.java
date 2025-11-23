@@ -1,5 +1,6 @@
 package com.jfreed.esg.customer;
 
+import com.jfreed.esg.config.ApiPaths;
 import com.jfreed.esg.dto.Customer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/customers")
+@RequestMapping(ApiPaths.CUSTOMERS)
 public class CustomerController
 {
     private final CustomerRepository customerRepository;
@@ -52,7 +53,7 @@ public class CustomerController
         CustomerEntity entity = new CustomerEntity(customer.getCustomerRef(), customer.getCustomerName(), address);
         CustomerEntity saved = customerRepository.save(entity);
         Customer dto = customerMapper.toDTO(saved);
-        return ResponseEntity.created(URI.create("/api/v1/customers/" + saved.getId()))
+        return ResponseEntity.created(URI.create(ApiPaths.CUSTOMERS + "/" + saved.getId()))
                 .body(dto);
     }
 }

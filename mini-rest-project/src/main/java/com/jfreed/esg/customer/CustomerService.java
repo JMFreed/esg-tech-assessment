@@ -1,5 +1,6 @@
 package com.jfreed.esg.customer;
 
+import com.jfreed.esg.config.ApiPaths;
 import com.jfreed.esg.dto.Customer;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class CustomerService
     public String createCustomer(Customer customer)
     {
         return webClient.post()
-                .uri("/api/v1/customers")
+                .uri(ApiPaths.CUSTOMERS)
                 .bodyValue(customer)
                 .retrieve()
                 .bodyToMono(String.class)
@@ -30,7 +31,7 @@ public class CustomerService
     public List<Customer> getCustomers()
     {
         return webClient.get()
-                .uri("/api/v1/customers")
+                .uri(ApiPaths.CUSTOMERS)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Customer>>()
                 {
@@ -41,7 +42,7 @@ public class CustomerService
     public Customer getCustomer(String customerRef)
     {
         return webClient.get()
-                .uri("/api/v1/customers?customerRef={ref}", customerRef)
+                .uri(ApiPaths.CUSTOMERS + "?customerRef={ref}", customerRef)
                 .retrieve()
                 .bodyToMono(Customer.class)
                 .block();

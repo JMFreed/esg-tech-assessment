@@ -1,6 +1,7 @@
 package com.jfreed.esg;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jfreed.esg.config.ApiPaths;
 import com.jfreed.esg.customer.*;
 import com.jfreed.esg.dto.Customer;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ class CustomerControllerTest
         CustomerEntity entity = new CustomerEntity("12345", "Jone Smith", new Address("Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T"));
         when(customerRepository.save(any())).thenReturn(entity);
         when(customerMapper.toDTO(any())).thenReturn(customer);
-        mockMvc.perform(post("/api/v1/customers")
+        mockMvc.perform(post(ApiPaths.CUSTOMERS)
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(customer)))
                 .andExpect(status().isCreated())
@@ -67,7 +68,7 @@ class CustomerControllerTest
     {
         when(customerRepository.findAll()).thenReturn(entities);
         when(customerMapper.toDTOs(any())).thenReturn(customers);
-        mockMvc.perform(get("/api/v1/customers")
+        mockMvc.perform(get(ApiPaths.CUSTOMERS)
                         .accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].customerRef").value("12345"));
@@ -79,7 +80,8 @@ class CustomerControllerTest
         when(customerRepository.findByCustomerRef("12347")).thenReturn(Optional.ofNullable(entities.get(2)));
         when(customerMapper.toDTO(any())).thenReturn(customers.get(2));
         String customerRef = "12347";
-        mockMvc.perform(get("/api/v1/customers?customerRef={ref}", customerRef)
+        mockMvc.perform(get(ApiPaths.CUSTOMERS)
+                        .param("customerRef", customerRef)
                         .accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customerRef").value("12347"))
@@ -91,7 +93,8 @@ class CustomerControllerTest
     {
         when(customerRepository.findByCustomerRef("12348")).thenReturn(Optional.empty());
         String customerRef = "12348";
-        mockMvc.perform(get("/api/v1/customers?customerRef={ref}", customerRef)
+        mockMvc.perform(get(ApiPaths.CUSTOMERS)
+                        .param("customerRef", customerRef)
                         .accept("application/json"))
                 .andExpect(status().isNotFound());
     }
