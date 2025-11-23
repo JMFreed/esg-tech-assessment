@@ -1,10 +1,7 @@
 package com.jfreed.esg;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jfreed.esg.customer.Address;
-import com.jfreed.esg.customer.CustomerController;
-import com.jfreed.esg.customer.CustomerEntity;
-import com.jfreed.esg.customer.CustomerRepository;
+import com.jfreed.esg.customer.*;
 import com.jfreed.esg.dto.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class CustomerControllerTest
 {
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -35,12 +31,21 @@ class CustomerControllerTest
     private ObjectMapper objectMapper;
 
     @MockBean
+    private CustomerMapper customerMapper;
+
+    @MockBean
     private CustomerRepository customerRepository;
 
-    List<CustomerEntity> customers = List.of(
+    List<CustomerEntity> entities = List.of(
             new CustomerEntity("12345", "Jone Smith", new Address("Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T")),
             new CustomerEntity("12346", "Jane Doe", new Address("Fake House", "Fake St", "Leicester", "Leicestershire", "United Kingdom", "F4K3 P5T2")),
             new CustomerEntity("12347", "Laura Parker", new Address("Fake House", "Fake St", "Edinburgh", "Lothian", "United Kingdom", "F4K3 P5T3"))
+    );
+
+    List<Customer> customers = List.of(
+            new Customer("12345", "Jone Smith","Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T"),
+            new Customer("12346", "Jane Doe", "Fake House", "Fake St", "Leicester", "Leicestershire", "United Kingdom", "F4K3 P5T2"),
+            new Customer("12347", "Laura Parker", "Fake House", "Fake St", "Edinburgh", "Lothian", "United Kingdom", "F4K3 P5T3")
     );
 
     @Test
@@ -49,6 +54,7 @@ class CustomerControllerTest
         Customer customer = new Customer("12345", "Jone Smith", "Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T");
         CustomerEntity entity = new CustomerEntity("12345", "Jone Smith", new Address("Fake House", "Fake St", "Canterbury", "Kent", "United Kingdom", "F4K3 P5T"));
         when(customerRepository.save(any())).thenReturn(entity);
+        when(customerMapper.toDTO(any())).thenReturn(customer);
         mockMvc.perform(post("/api/v1/customers")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(customer)))
@@ -59,7 +65,8 @@ class CustomerControllerTest
     @Test
     void testGetAllCustomers_expectOk() throws Exception
     {
-        when(customerRepository.findAll()).thenReturn(customers);
+        when(customerRepository.findAll()).thenReturn(entities);
+        when(customerMapper.toDTOs(any())).thenReturn(customers);
         mockMvc.perform(get("/api/v1/customers")
                         .accept("application/json"))
                 .andExpect(status().isOk())
@@ -69,7 +76,8 @@ class CustomerControllerTest
     @Test
     void testGetCustomersByRef_expectOk() throws Exception
     {
-        when(customerRepository.findByCustomerRef("12347")).thenReturn(Optional.ofNullable(customers.get(2)));
+        when(customerRepository.findByCustomerRef("12347")).thenReturn(Optional.ofNullable(entities.get(2)));
+        when(customerMapper.toDTO(any())).thenReturn(customers.get(2));
         String customerRef = "12347";
         mockMvc.perform(get("/api/v1/customers?customerRef={ref}", customerRef)
                         .accept("application/json"))

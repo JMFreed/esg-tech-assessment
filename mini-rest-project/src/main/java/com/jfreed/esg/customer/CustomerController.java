@@ -14,9 +14,12 @@ public class CustomerController
 {
     private final CustomerRepository customerRepository;
 
-    public CustomerController(CustomerRepository customerRepository)
+    private final CustomerMapper customerMapper;
+
+    public CustomerController(CustomerRepository customerRepository, CustomerMapper customerMapper)
     {
         this.customerRepository = customerRepository;
+        this.customerMapper = customerMapper;
     }
 
     @GetMapping
@@ -28,13 +31,16 @@ public class CustomerController
             if (byCustomerRef.isEmpty())
             {
                 return ResponseEntity.notFound().build();
-            } else
+            }
+            else
             {
-                return ResponseEntity.ok().body(byCustomerRef.get());
+                Customer dto = customerMapper.toDTO(byCustomerRef.get());
+                return ResponseEntity.ok().body(dto);
             }
         }
         List<CustomerEntity> all = customerRepository.findAll();
-        return ResponseEntity.ok().body(all);
+        List<Customer> dtos = customerMapper.toDTOs(all);
+        return ResponseEntity.ok().body(dtos);
     }
 
     @PostMapping(consumes = "application/json")
@@ -45,7 +51,8 @@ public class CustomerController
                 customer.getCountry(), customer.getPostcode());
         CustomerEntity entity = new CustomerEntity(customer.getCustomerRef(), customer.getCustomerName(), address);
         CustomerEntity saved = customerRepository.save(entity);
+        Customer dto = customerMapper.toDTO(saved);
         return ResponseEntity.created(URI.create("/api/v1/customers/" + saved.getId()))
-                .body(saved);
+                .body(dto);
     }
 }
