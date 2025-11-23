@@ -23,7 +23,9 @@ public class Customer
         this.postcode = postcode;
     }
 
-    protected Customer() {}
+    protected Customer()
+    {
+    }
 
     public String getCustomerRef()
     {
@@ -106,16 +108,10 @@ public class Customer
     }
 
     @Override
-    public String toString() {
-        return "Customer{" +
-                "ref='" + customerRef + '\'' +
-                ", name='" + customerName + '\'' +
-                ", addressLine1='" + addressLine1 + '\'' +
-                ", addressLine2='" + addressLine2 + '\'' +
-                ", town='" + town + '\'' +
-                ", county='" + county + '\'' +
-                ", country='" + country + '\'' +
-                ", postcode='" + postcode + '\'' +
-                '}';
+    public String toString()
+    {
+        return String.format("Customer{ref='%s', name='%s', addressLine1='%s', addressLine2='%s'" +
+                        ", town='%s', county='%s', country='%s', postcode='%s'}",
+                customerRef, customerName, addressLine1, addressLine2, town, county, country, postcode);
     }
 }

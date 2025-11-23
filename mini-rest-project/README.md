@@ -1,17 +1,19 @@
 # Mini REST project
 
-Console app that takes a single argument, which can be a relative path to a CSV file.
+[ConsoleApp](src/main/java/com/jfreed/esg/ConsoleApp.java) takes a single argument, which can be an absolute or relative path to a CSV file.
 
-CsvParser class parses CSV file into Collection of DTO objects (see test.csv)
+[CsvParser](src/main/java/com/jfreed/esg/parser/CsvParser.java) parses CSV file into Collection of [Customer](src/main/java/com/jfreed/esg/dto/Customer.java) objects
 
-Spring Boot Data JPA connection to a postgreSQL database running in docker container.
+Spring Boot Data JPA connection to a postgreSQL database running in docker container (see [docker-compose.yaml](docker/postgresql/docker-compose.yaml).
 
-CustomerController endpoints:
+[CustomerController](src/main/java/com/jfreed/esg/customer/CustomerController.java) endpoints:
  - GET /api/v1/customers
  - GET /api/v1/customers?customerRef=<customerRef>
  - POST /api/v1/customers
 
-CustomerService uses Spring webflux WebClient to call the REST API controller endpoints.
+[CustomerMapper](src/main/java/com/jfreed/esg/customer/CustomerMapper.java) maps the [CustomerEntity](src/main/java/com/jfreed/esg/customer/CustomerEntity.java) to [Customer](src/main/java/com/jfreed/esg/dto/Customer.java)
+
+[CustomerService](src/main/java/com/jfreed/esg/customer/CustomerService.java) uses Spring webflux WebClient to call the REST API controller endpoints.
 
 ## How to run
 
@@ -33,3 +35,4 @@ mvn spring-boot:run -Dspring-boot.run.arguments="data/test.csv"
 ```
 
 ### Notes
+
