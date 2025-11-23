@@ -1,6 +1,8 @@
 package com.jfreed.esg.parser;
 
 import com.jfreed.esg.dto.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,8 +15,11 @@ import java.util.List;
 @Service
 public class CsvParser
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CsvParser.class);
+
     public List<Customer> parseCsv(Path csvFile) throws IOException
     {
+        LOGGER.info("Parsing CSV file: {}", csvFile.toAbsolutePath());
         List<Customer> customers = new ArrayList<>();
 
         try (BufferedReader reader = Files.newBufferedReader(csvFile))
@@ -29,7 +34,7 @@ public class CsvParser
 
                 if (fields.length != 8)
                 {
-                    System.err.println("Skipping invalid line: " + line);
+                    LOGGER.warn("Skipping invalid line: {}", line);
                     continue;
                 }
 
