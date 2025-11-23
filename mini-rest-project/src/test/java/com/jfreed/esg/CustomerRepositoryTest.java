@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @ActiveProfiles("test")
-@EnableAutoConfiguration
 public class CustomerRepositoryTest
 {
     @Autowired
