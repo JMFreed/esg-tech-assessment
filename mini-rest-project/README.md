@@ -36,3 +36,7 @@ mvn spring-boot:run -Dspring-boot.run.arguments="data/test.csv"
 
 ### Notes
 
+- Hardcoded credentials in postgreSQL container and application.properties for simplicity.
+- Using synchronous blocking in the webclient for simplicity
+- Did not implement API endpoints for updating/deleting customer entities
+- Did not implement any search criteria pattern to allow finding customers by town, country, postcode, etc
