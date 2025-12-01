@@ -2,6 +2,10 @@ package com.jfreed.esg.customer;
 
 import jakarta.persistence.Embeddable;
 
+/*
+ * Embeddable Address object, as the address is only pertinent for the time
+ * the Customer entity exists
+ */
 @Embeddable
 public class Address
 {
@@ -12,7 +16,9 @@ public class Address
     private String country;
     private String postcode;
 
-    protected Address() {}
+    protected Address()
+    {
+    }
 
     public Address(String addressLine1, String addressLine2, String town, String county, String country, String postcode)
     {

@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+/*
+ * TODO: use opencsv library to read CSV file as List<Map<String, String>>
+ *  where K=columnName, V=value
+ */
 public class CsvParser
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(CsvParser.class);
@@ -26,6 +30,7 @@ public class CsvParser
         {
             String line;
 
+            // Skip header row
             reader.readLine();
 
             while ((line = reader.readLine()) != null)
@@ -38,6 +43,10 @@ public class CsvParser
                     continue;
                 }
 
+                /*
+                 * TODO: Separate component for converting List<Map<String, String>>
+                 *  into List<Customer>
+                 */
                 Customer customer = new Customer(
                         fields[0].trim(),
                         fields[1].trim(),
@@ -48,11 +57,9 @@ public class CsvParser
                         fields[6].trim(),
                         fields[7].trim()
                 );
-
                 customers.add(customer);
             }
         }
-
         return customers;
     }
 }

@@ -108,6 +108,9 @@ public class Customer
     }
 
     @Override
+    /*
+     * TODO: String.format quite expensive, maybe use StringBuilder instead
+     */
     public String toString()
     {
         return String.format("Customer{ref='%s', name='%s', addressLine1='%s', addressLine2='%s'" +

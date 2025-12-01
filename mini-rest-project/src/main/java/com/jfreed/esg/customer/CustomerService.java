@@ -39,6 +39,10 @@ public class CustomerService
                 .block();
     }
 
+    /*
+     * TODO: probably want a method that takes Map<String, String> params
+     *  to omit having to hardcode query params in the URI
+     */
     public Customer getCustomer(String customerRef)
     {
         return webClient.get()

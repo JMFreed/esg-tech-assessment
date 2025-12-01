@@ -9,6 +9,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+/*
+ * I think having a service or manager bean to save, update, and fetch customer entities
+ * would have been overkill, so having controller use repository directly and having the mapper
+ * return the DTO object is acceptable
+ */
 @RestController
 @RequestMapping(ApiPaths.CUSTOMERS)
 public class CustomerController

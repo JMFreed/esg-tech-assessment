@@ -8,8 +8,13 @@ import org.mapstruct.Named;
 
 import java.util.List;
 
+/*
+ * Using mapstruct library to convert Spring JPA entity into DTO object
+ * API client should only ever return DTO objects
+ */
 @Mapper(componentModel = "spring")
-public interface CustomerMapper {
+public interface CustomerMapper
+{
 
     @IterableMapping(qualifiedByName = "mapEntityToDto")
     List<Customer> toDTOs(List<CustomerEntity> entities);

@@ -24,6 +24,7 @@ public class CustomerRepositoryTest
     @Autowired
     private CustomerRepository customerRepository;
 
+    // Use of TestEntityManager to persist entities to correctly test repository bean
     @Autowired
     private TestEntityManager em;
 

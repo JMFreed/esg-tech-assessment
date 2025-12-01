@@ -20,8 +20,6 @@ import static org.mockito.Mockito.*;
 public class CustomerServiceTest
 {
 
-    private WebClient webClient;
-
     private ExchangeFunction exchangeFunction;
 
     private CustomerService customerService;
@@ -37,7 +35,7 @@ public class CustomerServiceTest
     void setup()
     {
         exchangeFunction = mock(ExchangeFunction.class);
-        webClient = WebClient.builder()
+        WebClient webClient = WebClient.builder()
                 .exchangeFunction(exchangeFunction)
                 .build();
 

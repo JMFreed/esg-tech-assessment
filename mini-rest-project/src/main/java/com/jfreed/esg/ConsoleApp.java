@@ -1,5 +1,6 @@
 package com.jfreed.esg;
 
+import com.jfreed.esg.config.ApiPaths;
 import com.jfreed.esg.customer.CustomerService;
 import com.jfreed.esg.dto.Customer;
 import com.jfreed.esg.parser.CsvParser;
@@ -57,12 +58,12 @@ public class ConsoleApp implements CommandLineRunner
             LOGGER.info("Saved customer: {}", created);
         });
 
-        LOGGER.info("Calling GET /api/v1/customers");
+        LOGGER.info("Calling GET {}", ApiPaths.CUSTOMERS);
         List<Customer> all = customerService.getCustomers();
         LOGGER.info("Result set: {}", all);
 
         String customerRef = "12345";
-        LOGGER.info("Calling GET /api/v1/customers?customerRef={}", customerRef);
+        LOGGER.info("Calling GET {}?customerRef={}", ApiPaths.CUSTOMERS, customerRef);
         Customer customer = customerService.getCustomer(customerRef);
         LOGGER.info("Result set: {}", customer);
 

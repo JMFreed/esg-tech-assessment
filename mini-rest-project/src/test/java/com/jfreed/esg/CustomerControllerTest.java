@@ -31,6 +31,7 @@ class CustomerControllerTest
     @Autowired
     private ObjectMapper objectMapper;
 
+    // Use of deprecated annotation not ideal
     @MockBean
     private CustomerMapper customerMapper;
 
